@@ -21,22 +21,7 @@ public class DBGrid extends AppCompatActivity {
         setContentView(R.layout.activity_dbgrid);
 
 
-        public void getMoviesByRating(String rating) {
-            SQLiteDatabase db = getReadableDatabase();
 
-            String sql = "select * from " + MovieTable.TABLE + " where rating = ?";
-            Cursor cursor = db.rawQuery(sql, new String[] { rating });
-            if (cursor.moveToFirst()) {
-                do {
-                    long id = cursor.getLong(0);
-                    String title = cursor.getString(1);
-                    String rated = cursor.getString(2);
-                    float stars = cursor.getFloat(3);
-
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-        }
 
     }
 
