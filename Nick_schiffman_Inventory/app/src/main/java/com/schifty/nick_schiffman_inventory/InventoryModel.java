@@ -18,6 +18,16 @@ public class InventoryModel {
 
     }
 
+    @Override
+    public String toString() {
+        return "InventoryModel{" +
+                "id=" + id +
+                ", item='" + item + '\'' +
+                ", inventory=" + inventory +
+                ", discription='" + discription + '\'' +
+                '}';
+    }
+
     public void setId(int id) {
         this.id = id;
     }
