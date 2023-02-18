@@ -22,6 +22,9 @@ public class DbConstructor extends SQLiteOpenHelper {
         db.execSQL(createDb);
     }
 
+
+
+
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
