@@ -131,22 +131,48 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // if inventory is low notify the user
+    private Boolean inventoryCheck(){
 
-    // Build notifications
+        DbConstructor dbConstructor = new DbConstructor(MainActivity.this);
+        int i = 0;
+        while (!dbConstructor.getEntries().isEmpty()){
+            int inventory;
+            try {
+                inventory = dbConstructor.getEntries().get(i).getInventory();
+            }catch (Exception e){
+                return false;
+            }
+            dbConstructor.getEntries().remove(i);
+
+            if(inventory <= 5){
+                return true;
+            }
+
+            i ++;
+        }
+
+        return false;
+    }
+
+
+    // Build and send notifications
     private void addNotification() {
-        Intent intent = new Intent(MainActivity.this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (inventoryCheck()) {
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder b = new NotificationCompat.Builder(MainActivity.this);
+            NotificationCompat.Builder b = new NotificationCompat.Builder(MainActivity.this);
 
-        b.setAutoCancel(true)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("Low Inventory")
-                .setContentText("Item Low on...")
-                .setContentIntent(contentIntent);
+            b.setAutoCancel(true)
+                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setContentTitle("Low Inventory")
+                    .setContentText("Item Low on...")
+                    .setContentIntent(contentIntent);
 
-        NotificationManager notificationManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, b.build());
+            NotificationManager notificationManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(1, b.build());
+        }
     }
 
 
