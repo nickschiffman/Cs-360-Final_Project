@@ -16,29 +16,11 @@ import android.widget.Toast;
 public class DBGrid extends AppCompatActivity {
 
 
-    Button btn_add;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_dbgrid);
-
-        btn_add = findViewById(R.id.add);
-
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try{
-                    Toast.makeText(DBGrid.this, "Test", Toast.LENGTH_SHORT).show();
-                }
-                catch (Exception e){
-                    Toast.makeText(DBGrid.this, "Entry Not Created", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-
 
     }
 
@@ -47,4 +29,8 @@ public class DBGrid extends AppCompatActivity {
         setContentView(R.layout.activity_sms);
 
     }
+
+
+
+
 }

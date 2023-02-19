@@ -1,5 +1,6 @@
 package com.schifty.nick_schiffman_inventory;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -27,6 +28,22 @@ public class DbConstructor extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
+
+    public boolean addEntry(InventoryModel inventoryModel){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ITEM, inventoryModel.getItem());
+        cv.put(DISCRIPTION, inventoryModel.getDiscription());
+        cv.put(INVENTORY, inventoryModel.getInventory());
+
+        long insert = db.insert(INVENTORY_TABLE, null, cv);
+
+        return insert != -1;
+
 
     }
 }
