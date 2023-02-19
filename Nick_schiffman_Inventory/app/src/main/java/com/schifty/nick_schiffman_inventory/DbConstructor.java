@@ -62,14 +62,16 @@ public class DbConstructor extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+//
+//        cv.put(ITEM, inventoryModel.getItem());
+//        cv.put(DISCRIPTION, inventoryModel.getDiscription());
+//        cv.put(INVENTORY, inventoryModel.getInventory());
+//
+//        long insert = db.update(INVENTORY_TABLE, cv, " WHERE ID = ?", new String[]{ Integer.toString(inventoryModel.getId())});
 
-        cv.put(ITEM, inventoryModel.getItem());
-        cv.put(DISCRIPTION, inventoryModel.getDiscription());
-        cv.put(INVENTORY, inventoryModel.getInventory());
+        db.rawQuery("UPDATE " + INVENTORY_TABLE + " SET "  + INVENTORY + " = " + inventoryModel.getInventory() + " WHERE ID" + " = " + inventoryModel.getId(), null);
 
-        long insert = db.update(INVENTORY_TABLE, cv, "WHERE ID = ?", new String[]{ Integer.toString(inventoryModel.getId())});
-
-        return insert != -1;
+        return true;
 
 
     }

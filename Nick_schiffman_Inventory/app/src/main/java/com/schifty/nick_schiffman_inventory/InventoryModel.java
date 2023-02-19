@@ -24,12 +24,7 @@ public class InventoryModel {
     // To string def
     @Override
     public String toString() {
-        return "InventoryModel{" +
-                "id=" + id +
-                ", item='" + item + '\'' +
-                ", inventory=" + inventory +
-                ", discription='" + discription + '\'' +
-                '}';
+        return item + "     Inventory: " + inventory;
     }
 
     // Public setters and getters since Vars are set to private
