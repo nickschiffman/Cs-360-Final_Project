@@ -28,7 +28,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
         <Switch
-            android:id="@+id/smsNotificationsSwitch"
+            android:id="@+id/smsBool"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"

@@ -1,7 +1,14 @@
 package com.schifty.nick_schiffman_inventory;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.camera2.DngCreator;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,10 +38,43 @@ public class MainActivity extends AppCompatActivity {
 
     // Button used to sign in
     public void btnSignIn(View v){
-        setContentView(R.layout.activity_dbgrid);
-        List<InventoryModel> entries = getInventoryModels();
-        Toast.makeText(MainActivity.this, entries.toString(), Toast.LENGTH_LONG).show();
 
+        if(checkUser()) {
+            setContentView(R.layout.activity_dbgrid);
+            List<InventoryModel> entries = getInventoryModels();
+            Toast.makeText(MainActivity.this, entries.toString(), Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(MainActivity.this, "User not created", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public Boolean checkUser(){
+
+        login login = new login(MainActivity.this);
+        List<String[]> allEntries = login.getEntries();
+        EditText usrName = findViewById(R.id.etName);
+        EditText pass = findViewById(R.id.etPass);
+
+        int i = 0;
+        while (!allEntries.isEmpty()){
+            String[] array = {};
+            try {
+                array = allEntries.get(i);
+            }catch (Exception e){
+                return false;
+            }
+            allEntries.remove(i);
+
+            if(usrName.getText().toString().equals(array[0])){
+                if (pass.getText().toString().equals(array[1])){
+                    return true;
+                }
+            }
+
+                    i ++;
+        }
+
+        return false;
     }
 
 
@@ -75,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        //addNotification();
         // Return DB entries
         return entries;
     }
@@ -86,11 +127,35 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    // Build notifications
+    private void addNotification() {
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder b = new NotificationCompat.Builder(MainActivity.this);
+
+        b.setAutoCancel(true)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Low Inventory")
+                .setContentText("Item Low on...")
+                .setContentIntent(contentIntent);
+
+
+        NotificationManager notificationManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, b.build());
+    }
+
+
     // Create new account
     public void btnCreateAccount(View v){
+        login login = new login(MainActivity.this);
+        EditText usrName = findViewById(R.id.etName);
+        EditText pass = findViewById(R.id.etPass);
+        login.addUser(usrName.getText().toString(), pass.getText().toString());
         setContentView(R.layout.activity_dbgrid);
         List<InventoryModel> entries = getInventoryModels();
-
+        Toast.makeText(MainActivity.this, "User Created!", Toast.LENGTH_LONG).show();
     }
 
     // Add new entry into the DB and update the GUI
