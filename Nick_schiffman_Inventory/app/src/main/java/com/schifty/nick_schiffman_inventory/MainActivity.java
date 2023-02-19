@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void sms(){
+        addNotification();
+    }
+
     // Displays and updates the display for SQL DB
     public List<InventoryModel> getInventoryModels() {
         ListView list = findViewById(R.id.listView);
@@ -140,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 .setContentTitle("Low Inventory")
                 .setContentText("Item Low on...")
                 .setContentIntent(contentIntent);
-
 
         NotificationManager notificationManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, b.build());
